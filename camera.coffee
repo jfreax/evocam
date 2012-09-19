@@ -11,6 +11,10 @@ class Camera
     
     @ctx = document.getElementById('camera').getContext('2d')
     
+    @makeSnapshot()
+
+      
+  makeSnapshot: () ->
     # We can't `new Video()` yet, so we'll resort to the vintage
     # "hidden div" hack for dynamic loading.
     streamContainer = document.createElement('div')
@@ -29,15 +33,9 @@ class Camera
     
     navigator.getUserMedia({video: true}, (stream) =>
         @video.src = window.URL.createObjectURL(stream)
-        #@update()
         setTimeout(@draw, 1000, this) 
       )
-      
-    console.log navigator
-      
-  update: () ->
-    setTimeout(@draw, 1000, this) 
-    
+            
   draw: (self) ->
     self.ctx.drawImage(self.video, 0, 0, self.ctx.canvas.width, self.ctx.canvas.height)
     document.body.removeChild(document.getElementById('video'))
