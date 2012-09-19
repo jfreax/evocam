@@ -9,6 +9,7 @@ ctx = canvas.getContext('2d')
 $ ->
   pop = new Population(500)
   pop.draw()
+
   
   
 class Individual
