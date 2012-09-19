@@ -1,6 +1,7 @@
 from __future__ import with_statement
-from fabric.api import run, local, cd
+from fabric.api import run, local, cd, env
 
+env.hosts = ['jdsoft.de']
 
 def push():
     local("git push")
