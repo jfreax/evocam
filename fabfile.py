@@ -1,5 +1,5 @@
 from __future__ import with_statement
-from fabric.api import run, local, cd, env
+from fabric.api import *
 
 env.hosts = ['jdsoft.de']
 src_dir = '/home/jens/VCS/evoface'
@@ -7,6 +7,9 @@ public_dir = '/var/www/static/evoface'
 
 
 # Local #
+def commit(a=False):
+    local("git commit" + " a" if a else "")
+
 def push():
     local("git push")
 
@@ -16,6 +19,7 @@ def make(watch=False):
 
 # Remote #
 def deploy():
+    commit(False)
     push()
     
     with cd(src_dir):
@@ -26,4 +30,5 @@ def deploy():
 # Helper #
 def server():
     make()
-    local("cd public && python -m SimpleHTTPServer")
+    with lcd('public/'):
+        local("python -m SimpleHTTPServer")
