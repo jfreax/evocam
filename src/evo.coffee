@@ -56,12 +56,15 @@ class Individual
         src_pixel = @ctx.getImageData(x, y, 1, 1).data
         camera_pixel = camera_ctx.getImageData(x, y, 1, 1).data
         
+        src_color = Color.convert({ r: src_pixel[0], g: src_pixel[1], b: src_pixel[2], a: src_pixel[3], 'lab')
+        camera_color = Color.convert({ r: camera_pixel[0], g: camera_pixel[1], b: camera_pixel[2], a: camera_pixel[3], 'lab')
+        
         dist += @distance( src_pixel, camera_pixel )
     return dist
     
         
   distance: (p1, p2) ->
-    (p1[0]-p2[0])*(p1[0]-p2[0]) + (p1[1]-p2[1])*(p1[1]-p2[1]) + (p1[2]-p2[2])*(p1[2]-p2[2])
+    (p1.l-p2.l)*(p1.l-p2.l) + (p1.a-p2.a)*(p1.a-p2.a) + (p1.b-p2.b)*(p1.b-p2.b)
 
 
 
