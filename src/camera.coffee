@@ -13,6 +13,7 @@ class Camera
     @video = document.getElementById('video')
     
     @showPopover()
+    @bind()
     @begin()
 
 
@@ -21,6 +22,15 @@ class Camera
     $('#cam-help').tooltip({'title': 'Don\'t see anything? Click here!'})
 
 
+  bind:() =>
+    $('#video').bind('click', () =>
+        @draw(this)
+        @end()
+        
+        $('#main').css({ display: "block" });
+      )
+  
+
   begin: () ->
     navigator.getUserMedia({video: true}, (stream) =>
         @video.src = window.URL.createObjectURL(stream)
@@ -28,7 +38,7 @@ class Camera
 
 
   end: () ->
-    document.body.removeChild(@video)
+    $('#video').remove()
 
 
   draw: (self) ->
