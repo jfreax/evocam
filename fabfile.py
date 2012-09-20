@@ -8,7 +8,8 @@ public_dir = '/var/www/static/evoface'
 
 # Local #
 def commit(a=False):
-    local("git commit" + " a" if a else "")
+    local("git commit" + (" a" if a else ""))
+
 
 def push():
     local("git push")
@@ -17,15 +18,17 @@ def push():
 def make(watch=False):
     local("coffee " + ("-w " if watch else "") +"-o public/js -c src/*.coffee")
 
+
 # Remote #
 def deploy():
-    commit(False)
+    commit()
     push()
     
     with cd(src_dir):
         run("git pull")
         run("fab make")
         run("cp -r " + src_dir + "/public/* " + public_dir + "/")
+
     
 # Helper #
 def server():

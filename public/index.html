@@ -27,9 +27,16 @@
           <a class="brand" href="#">EvoFace</a>
         </div>
       </div>
-      
     </header>
-    <div id="main" role="main" class="pagination-centered">
+    
+    <div id="snapshot" class="pagination-centered">
+      <video id="video" class="img-polaroid" autoplay="1" width="400" height="300"
+             rel="popover" 
+             data-original-title="Take a shot! <i id='cam-help' class='icon-question-sign pull-right'></i>"
+             data-content="Smile, then click video."></video>
+    </div>
+    
+    <div id="main" role="main" class="pagination-centered" style="display:none">
       <canvas id="face" class="img-polaroid" width="400" height="300"></canvas>
       <canvas id="camera" class="img-polaroid" width="400" height="300"></canvas>
       

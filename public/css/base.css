@@ -2,3 +2,12 @@
 .gap {
   padding-top: 3em;
 }
+
+.popover-content p {
+  color: #4C4947;
+}
+
+.popover-content p small {
+  font-size: 12px;
+  color: #1C1917;
+}
