@@ -1,7 +1,8 @@
 $ ->
   cam = new Camera()
-  pop = new Population(20)
-  pop.draw()
+  hsv = Color.convert('#BADBAD', 'lab')
 
+start = () -> 
+  pop = new Population(10)
+  pop.run()
   
-

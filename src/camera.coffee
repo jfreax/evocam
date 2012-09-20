@@ -19,12 +19,14 @@ class Camera
     $('#cam-help').tooltip({'title': 'Don\'t see anything? Click here!'})
 
 
-  bind:() =>
+  bind: () =>
     $('#video').bind('click', () =>
         @draw(this)
         @end()
         
         $('#main').removeClass('hide-opacity')
+        
+        start()
       )
   
 

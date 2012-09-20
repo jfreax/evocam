@@ -1,8 +1,10 @@
 ## Canvas
+camera = document.getElementById('camera')
 canvas = document.getElementById('faces-1')
-if !canvas.getContext
+if !camera.getContext
   alert("This page uses HTML 5 to render correctly. Other browsers may not see anything.")
 
+camera_ctx = camera.getContext('2d')
 
 class Box
   constructor: (@pos, @pos2, @color) ->
@@ -17,7 +19,7 @@ class Individual
   
   constructor: () ->
     @boxes = []
-    @count = Math.random()*100
+    @count = 1 #Math.random()*100
     
     @create()
     
@@ -40,15 +42,32 @@ class Individual
         })
     return
   
-  draw: ( ctx, canvas, face ) ->
-    ctx.clearRect( 0, 0, canvas.width, canvas.height )
+  clear: () ->
+    @ctx.clearRect( 0, 0, @ctx.canvas.width, @ctx.canvas.height )
+  
+  draw: () ->
     for i in @boxes
-      i.draw( ctx )
+      i.draw( @ctx )
+      
+  fitting: () ->
+    dist = 0
+    for x in [0..@ctx.canvas.width]
+      for y in [0..@ctx.canvas.height]
+        src_pixel = @ctx.getImageData(x, y, 1, 1).data
+        camera_pixel = camera_ctx.getImageData(x, y, 1, 1).data
+        
+        dist += @distance( src_pixel, camera_pixel )
+    return dist
+    
+        
+  distance: (p1, p2) ->
+    (p1[0]-p2[0])*(p1[0]-p2[0]) + (p1[1]-p2[1])*(p1[1]-p2[1]) + (p1[2]-p2[2])*(p1[2]-p2[2])
 
 
 
 class Population
   face = 0
+  best = -1
   individuals: []
 
   constructor: (@count) ->
@@ -59,11 +78,18 @@ class Population
       @individuals.push new Individual()
     return
 
-  draw: () ->
+  run: () ->
     for i in @individuals
       canvas = document.getElementById('faces-'+face)
-      ctx = canvas.getContext('2d')
-      i.draw(ctx, canvas, face)
+      i.ctx = canvas.getContext('2d')
+      
+      i.clear()
+      i.draw()
+      fitting = i.fitting()
+      
+      if fitting < best || best == -1
+        best = fitting
+        console.log fitting
 
       face += 1
       face %= 5
