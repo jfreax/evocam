@@ -27,7 +27,8 @@ class Camera
         @draw(this)
         @end()
         
-        $('#main').css({ display: "block" });
+        #$('#main').css({ display: "block" });
+        $('#main').removeClass('hide-opacity')
       )
   
 
