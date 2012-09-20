@@ -5,6 +5,7 @@ if !camera.getContext
   alert("This page uses HTML 5 to render correctly. Other browsers may not see anything.")
 
 camera_ctx = camera.getContext('2d')
+best_ctx = document.getElementById('face').getContext('2d')
 
 class Box
   constructor: (@pos, @pos2, @color) ->
@@ -73,7 +74,7 @@ class Individual
 
 class Population
   face = 0
-  best = -1
+  best_fitting = -1
   individuals: []
 
   constructor: (@count) ->
@@ -97,12 +98,16 @@ class Population
       i.draw()
       fitting = i.fitting()
       
-      if fitting < best || best == -1
-        best = fitting
+      if fitting < best_fitting || best_fitting == -1
+        best_fitting = fitting
+        @copyBest( canvas )
         console.log fitting
 
       face += 1
       face %= 5
         
     @evolve()
+  
+  copyBest: ( c ) ->
+    best_ctx.drawImage(c, 0, 0, best_ctx.canvas.width, best_ctx.canvas.height)
 
