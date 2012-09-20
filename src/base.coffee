@@ -7,12 +7,12 @@ ctx = canvas.getContext('2d')
 
 ## Initialization
 $ ->
-  pop = new Population(500)
+  pop = new Population(30)
   pop.draw()
 
   
   
-class Individual
+class Box
   constructor: (@pos, @pos2, @color) ->
 
   draw: () ->
@@ -20,15 +20,16 @@ class Individual
     ctx.fillRect(@pos.x, @pos.y, @pos.x-@pos2.x, @pos.y-@pos2.y)
 
 
-class Population
-  individuals: []
+class Individual
+  boxes: []
+  count: 10
   
-  constructor: (@count) ->
-    @populate()
+  constructor: () ->
+    @create()
     
-  populate: () ->
+  create: () ->
     for num in [1..@count]
-      @individuals.push new Individual(
+      @boxes.push new Box(
         {
           x: canvas.width*Math.random(), 
           y: canvas.height*Math.random()
@@ -46,5 +47,24 @@ class Population
     return
   
   draw: () ->
+    for i in @boxes
+      i.draw()
+
+
+class Population
+  individuals: []
+
+  constructor: (@count) ->
+    @populate()
+  
+  populate: () ->
+    for num in [1..@count]
+      @individuals.push new Individual()
+    return
+
+  draw: () ->
     for i in @individuals
       i.draw()
+
+
+
