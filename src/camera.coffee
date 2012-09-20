@@ -1,6 +1,3 @@
-$ ->
-  cam = new Camera()
-
 class Camera
   constructor: () ->
     window.URL = window.URL || window.webkitURL
@@ -27,7 +24,6 @@ class Camera
         @draw(this)
         @end()
         
-        #$('#main').css({ display: "block" });
         $('#main').removeClass('hide-opacity')
       )
   

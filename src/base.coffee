@@ -1,70 +1,7 @@
-## Canvas
-canvas = document.getElementById('face')
-if !canvas.getContext
-  alert("This page uses HTML 5 to render correctly. Other browsers may not see anything.")
-ctx = canvas.getContext('2d')
-
-
-## Initialization
 $ ->
-  pop = new Population(30)
+  cam = new Camera()
+  pop = new Population(20)
   pop.draw()
 
   
-  
-class Box
-  constructor: (@pos, @pos2, @color) ->
-
-  draw: () ->
-    ctx.fillStyle = "rgba(#{@color.r}, #{@color.g}, #{@color.b}, #{@color.a})"
-    ctx.fillRect(@pos.x, @pos.y, @pos.x-@pos2.x, @pos.y-@pos2.y)
-
-
-class Individual
-  boxes: []
-  count: 10
-  
-  constructor: () ->
-    @create()
-    
-  create: () ->
-    for num in [1..@count]
-      @boxes.push new Box(
-        {
-          x: canvas.width*Math.random(), 
-          y: canvas.height*Math.random()
-        },
-        { 
-          x: canvas.width*Math.random(),
-          y: canvas.height*Math.random()
-        },
-        { 
-          r: Math.floor(Math.random()*255),
-          g: Math.floor(Math.random()*255),
-          b: Math.floor(Math.random()*255),
-          a: Math.random()
-        })
-    return
-  
-  draw: () ->
-    for i in @boxes
-      i.draw()
-
-
-class Population
-  individuals: []
-
-  constructor: (@count) ->
-    @populate()
-  
-  populate: () ->
-    for num in [1..@count]
-      @individuals.push new Individual()
-    return
-
-  draw: () ->
-    for i in @individuals
-      i.draw()
-
-
 
