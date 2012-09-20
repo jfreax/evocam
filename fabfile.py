@@ -8,7 +8,7 @@ public_dir = '/var/www/static/evoface'
 
 # Local #
 def commit(a=False):
-    local("git commit" + (" a" if a else ""))
+    local("git commit" + (" -a" if a else ""))
 
 
 def push():
@@ -20,8 +20,9 @@ def make(watch=False):
 
 
 # Remote #
-def deploy():
-    commit()
+def deploy(a=False):
+    if a:
+        commit(True)
     push()
     
     with cd(src_dir):
