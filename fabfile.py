@@ -18,7 +18,7 @@ def make(watch=False):
 def deploy():
     push()
     
-    with cd(public_dir):
+    with cd(src_dir):
         run("git pull")
         run("fab make")
         run("cp -r " + src_dir + "/public/* " + public_dir + "/")
