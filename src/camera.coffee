@@ -26,7 +26,7 @@ class Camera
         
         $('#main').removeClass('hide-opacity')
         
-        start()
+        setTimeout(start, 1000)
       )
   
 

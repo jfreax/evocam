@@ -6,6 +6,9 @@ if !camera.getContext
 
 camera_ctx = camera.getContext('2d')
 best_ctx = document.getElementById('face').getContext('2d')
+best_ctx.globalCompositeOperation = 'copy'
+
+camera_ctx.globalCompositeOperation = 'darker'
 
 class Box
   constructor: (@pos, @pos2, @color) ->
@@ -20,7 +23,7 @@ class Individual
   
   constructor: () ->
     @boxes = []
-    @count = 1 #Math.random()*100
+    @count = Math.random()*1000
     
     @create()
     
@@ -52,8 +55,8 @@ class Individual
       
   fitting: () ->
     dist = 0
-    for x in [0..@ctx.canvas.width]
-      for y in [0..@ctx.canvas.height]
+    for x in [0..@ctx.canvas.width] by 10
+      for y in [0..@ctx.canvas.height] by 10
         src_pixel = @ctx.getImageData(x, y, 1, 1).data
         camera_pixel = camera_ctx.getImageData(x, y, 1, 1).data
         
@@ -90,7 +93,7 @@ class Population
 
   run: () ->
     #while true
-    for i in @individuals
+    for i in pop.individuals
       canvas = document.getElementById('faces-'+face)
       i.ctx = canvas.getContext('2d')
       
@@ -100,14 +103,21 @@ class Population
       
       if fitting < best_fitting || best_fitting == -1
         best_fitting = fitting
-        @copyBest( canvas )
+        pop.copyBest( canvas )
         console.log fitting
 
       face += 1
       face %= 5
         
-    @evolve()
+    pop.evolve()
+    
+    #requestAnimFrame(pop.run);
+    setTimeout( pop.run, 10 )
+    #self = this
+    #setTimeout( self.run(, 10, self )
   
   copyBest: ( c ) ->
     best_ctx.drawImage(c, 0, 0, best_ctx.canvas.width, best_ctx.canvas.height)
+    #camera_ctx.drawImage(c, 0, 0, best_ctx.canvas.width, best_ctx.canvas.height)
 
+pop = new Population(3)
