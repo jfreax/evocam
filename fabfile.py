@@ -17,6 +17,13 @@ def push():
     
 def make(watch=False):
     local("coffee " + ("-w " if watch else "") +"-o public/js -j all -c $(find src/ -iname *.coffee)")
+    
+    if not watch:
+      doc()
+
+
+def doc():
+  local("docco $(find src/ -iname *.coffee)")
 
 
 # Remote #
