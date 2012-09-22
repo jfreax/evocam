@@ -1,9 +1,12 @@
 class Population
-  face = 0
-  best_fitting = -1
+  best_ctx = document.getElementById('face').getContext('2d')
+
+  faceID: 0
+  best_fitting: -1
   individuals: []
 
   constructor: (@count) ->
+    best_ctx.globalCompositeOperation = 'copy'
     @populate()
   
   populate: () ->
@@ -11,31 +14,29 @@ class Population
       @individuals.push new Individual()
     return
 
-  evolve: () ->
-    for i in pop.individuals
+  evolve: (self) ->
+    for i in self.individuals
       i.evolve()
 
-  run: () ->
-    #while true
-    for i in pop.individuals
-      canvas = document.getElementById('faces-'+face)
+  run: (self) ->
+    for i in self.individuals
+      canvas = document.getElementById('faces-' + self.faceID)
       i.ctx = canvas.getContext('2d')
       
       i.clear()
       i.draw()
       fitting = i.fitting()
       
-      if fitting < best_fitting || best_fitting == -1
-        best_fitting = fitting
-        pop.copyBest( canvas )
+      if fitting < self.best_fitting || self.best_fitting == -1
+        self.best_fitting = fitting
+        self.copyBest( canvas )
         console.log fitting
 
-      face += 1
-      face %= 5
+      self.faceID += 1
+      self.faceID %= 5
         
-    pop.evolve()
-    
-    setTimeout( pop.run, 10 )
+    self.evolve( self )
+    setTimeout( self.run, 10, self )
   
   copyBest: ( c ) ->
     best_ctx.drawImage(c, 0, 0, best_ctx.canvas.width, best_ctx.canvas.height)

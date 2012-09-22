@@ -1,5 +1,8 @@
 class Individual
-  
+  camera_ctx = document.getElementById('camera').getContext('2d')
+  width = document.getElementById('faces-1').width
+  height = document.getElementById('faces-1').height
+ 
   constructor: () ->
     @boxes = []
     @count = Math.floor(Math.random()*1000)
@@ -10,12 +13,12 @@ class Individual
     for num in [1..@count]
       @boxes.push new Box(
         {
-          x: canvas.width*Math.random(), 
-          y: canvas.height*Math.random()
+          x: width*Math.random(), 
+          y: height*Math.random()
         },
         { 
-          x: canvas.width*Math.random(),
-          y: canvas.height*Math.random()
+          x: width*Math.random(),
+          y: height*Math.random()
         },
         { 
           r: Math.floor(Math.random()*255),
@@ -39,19 +42,15 @@ class Individual
         src_pixel = @ctx.getImageData(x, y, 1, 1).data
         camera_pixel = camera_ctx.getImageData(x, y, 1, 1).data
         
-        #src_color = Color.convert({ r: src_pixel[0], g: src_pixel[1], b: src_pixel[2], a: src_pixel[3]}, 'lab')
-        #camera_color = Color.convert({ r: camera_pixel[0], g: camera_pixel[1], b: camera_pixel[2], a: camera_pixel[3]}, 'lab')
-        #dist += @distanceLAB( src_pixel, camera_pixel )
-               
         dist += @distance( src_pixel, camera_pixel )
     return dist
   
   evolve: () ->
-    @boxes[Math.floor(Math.random()*(@count-1))].pos.x = canvas.width*Math.random()
-    @boxes[Math.floor(Math.random()*(@count-1))].pos2.x = canvas.width*Math.random()
+    @boxes[Math.floor(Math.random()*(@count-1))].pos.x = width*Math.random()
+    @boxes[Math.floor(Math.random()*(@count-1))].pos2.x = width*Math.random()
       
-    @boxes[Math.floor(Math.random()*(@count-1))].pos.y = canvas.height*Math.random()
-    @boxes[Math.floor(Math.random()*(@count-1))].pos2.y = canvas.height*Math.random()
+    @boxes[Math.floor(Math.random()*(@count-1))].pos.y = height*Math.random()
+    @boxes[Math.floor(Math.random()*(@count-1))].pos2.y = height*Math.random()
       
     
   distance: (p1, p2) ->    
