@@ -36,3 +36,5 @@ Thumbs.db
 *~
 
 .monitor
+
+public/js/*.js
