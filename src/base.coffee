@@ -6,7 +6,7 @@ start = () ->
   pop.run(pop)
   
   
-# shim layer with setTimeout fallback
+# Shim layer with setTimeout fallback
 requestAnimFrame = ( () -> 
          return window.requestAnimationFrame       || 
                 window.webkitRequestAnimationFrame || 
