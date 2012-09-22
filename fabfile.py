@@ -36,6 +36,7 @@ def deploy(a=False):
         run("git pull")
         run("fab make")
         run("cp -r " + src_dir + "/public/* " + public_dir + "/")
+        run("cp -r " + src_dir + "/docs " + public_dir + "/")
 
     
 # Helper #
