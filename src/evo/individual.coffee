@@ -1,5 +1,5 @@
 class Individual
-  camera_ctx = document.getElementById('camera').getContext('2d')
+  camera_ctx = document.getElementById('snapshot').getContext('2d')
   width = document.getElementById('faces-1').width
   height = document.getElementById('faces-1').height
  

@@ -6,7 +6,7 @@ class Camera
                               navigator.mozGetUserMedia || 
                               navigator.msGetUserMedia
     
-    @ctx = document.getElementById('camera').getContext('2d')
+    @ctx = document.getElementById('snapshot').getContext('2d')
     @video = document.getElementById('video')
     
     @showPopover()
