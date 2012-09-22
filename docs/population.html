@@ -1,0 +1,44 @@
+<!DOCTYPE html>  <html> <head>   <title>population.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="base.html">                 base.coffee               </a>                                           <a class="source" href="camera.html">                 camera.coffee               </a>                                           <a class="source" href="box.html">                 box.coffee               </a>                                           <a class="source" href="individual.html">                 individual.coffee               </a>                                           <a class="source" href="population.html">                 population.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               population.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nx">Population</span>
+  <span class="nv">best_ctx = </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&#39;face&#39;</span><span class="p">).</span><span class="nx">getContext</span><span class="p">(</span><span class="s">&#39;2d&#39;</span><span class="p">)</span>
+
+  <span class="nv">faceID: </span><span class="mi">0</span>
+  <span class="nv">best_fitting: </span><span class="o">-</span><span class="mi">1</span>
+  <span class="nv">individuals: </span><span class="p">[]</span>
+
+  <span class="nv">constructor: </span><span class="nf">(@count) -&gt;</span>
+    <span class="nv">best_ctx.globalCompositeOperation = </span><span class="s">&#39;copy&#39;</span>
+    <span class="nx">@populate</span><span class="p">()</span>
+  
+  <span class="nv">populate: </span><span class="nf">() -&gt;</span>
+    <span class="k">for</span> <span class="nx">num</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="nx">@count</span><span class="p">]</span>
+      <span class="nx">@individuals</span><span class="p">.</span><span class="nx">push</span> <span class="k">new</span> <span class="nx">Individual</span><span class="p">()</span>
+    <span class="k">return</span>
+
+  <span class="nv">evolve: </span><span class="nf">(self) -&gt;</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">self</span><span class="p">.</span><span class="nx">individuals</span>
+      <span class="nx">i</span><span class="p">.</span><span class="nx">evolve</span><span class="p">()</span>
+
+  <span class="nv">run: </span><span class="nf">(self) -&gt;</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">self</span><span class="p">.</span><span class="nx">individuals</span>
+      <span class="nv">canvas = </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&#39;faces-&#39;</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">faceID</span><span class="p">)</span>
+      <span class="nv">i.ctx = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s">&#39;2d&#39;</span><span class="p">)</span>
+      
+      <span class="nx">i</span><span class="p">.</span><span class="nx">clear</span><span class="p">()</span>
+      <span class="nx">i</span><span class="p">.</span><span class="nx">draw</span><span class="p">()</span>
+      <span class="nv">fitting = </span><span class="nx">i</span><span class="p">.</span><span class="nx">fitting</span><span class="p">()</span>
+      
+      <span class="k">if</span> <span class="nx">fitting</span> <span class="o">&lt;</span> <span class="nx">self</span><span class="p">.</span><span class="nx">best_fitting</span> <span class="o">||</span> <span class="nx">self</span><span class="p">.</span><span class="nx">best_fitting</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="nv">self.best_fitting = </span><span class="nx">fitting</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">copyBest</span><span class="p">(</span> <span class="nx">canvas</span> <span class="p">)</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">fitting</span>
+
+      <span class="nx">self</span><span class="p">.</span><span class="nx">faceID</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="nx">self</span><span class="p">.</span><span class="nx">faceID</span> <span class="o">%=</span> <span class="mi">5</span>
+        
+    <span class="nx">self</span><span class="p">.</span><span class="nx">evolve</span><span class="p">(</span> <span class="nx">self</span> <span class="p">)</span>
+    <span class="nx">setTimeout</span><span class="p">(</span> <span class="nx">self</span><span class="p">.</span><span class="nx">run</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">self</span> <span class="p">)</span>
+  
+  <span class="nv">copyBest: </span><span class="nf">( c ) -&gt;</span>
+    <span class="nx">best_ctx</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">best_ctx</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">best_ctx</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
