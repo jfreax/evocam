@@ -33,6 +33,7 @@ def deploy(a=False):
     push()
     
     with cd(src_dir):
+        run("git reset --hard")
         run("git clean -f -d")
         run("git pull")
         run("fab make")
