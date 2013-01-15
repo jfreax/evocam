@@ -9,7 +9,8 @@ class Camera
     @ctx = document.getElementById('snapshot').getContext('2d')
     @video = document.getElementById('video')
     
-    @showPopover()
+    setTimeout( @showPopover, 1000 )
+    
     @bind()
     @begin()
 

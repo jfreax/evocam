@@ -6,10 +6,11 @@
                               <span class="nx">navigator</span><span class="p">.</span><span class="nx">mozGetUserMedia</span> <span class="o">||</span> 
                               <span class="nx">navigator</span><span class="p">.</span><span class="nx">msGetUserMedia</span>
     
-    <span class="vi">@ctx = </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&#39;camera&#39;</span><span class="p">).</span><span class="nx">getContext</span><span class="p">(</span><span class="s">&#39;2d&#39;</span><span class="p">)</span>
+    <span class="vi">@ctx = </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&#39;snapshot&#39;</span><span class="p">).</span><span class="nx">getContext</span><span class="p">(</span><span class="s">&#39;2d&#39;</span><span class="p">)</span>
     <span class="vi">@video = </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&#39;video&#39;</span><span class="p">)</span>
     
-    <span class="nx">@showPopover</span><span class="p">()</span>
+    <span class="nx">setTimeout</span><span class="p">(</span> <span class="nx">@showPopover</span><span class="p">,</span> <span class="mi">1000</span> <span class="p">)</span>
+    
     <span class="nx">@bind</span><span class="p">()</span>
     <span class="nx">@begin</span><span class="p">()</span>
 
